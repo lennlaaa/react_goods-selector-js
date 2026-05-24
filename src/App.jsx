@@ -16,42 +16,63 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [select, useSelect] = useState('Jam');
+  const [selectedGood, setSelectedGood] = useState('Jam');
 
-  <main className="section container">
-    <h1 className="title is-flex is-align-items-center">
-      {select ? (
-        <>
-          {`${select} is selected`}
+  return (
+    <main className="section container">
+      <h1 className="title is-flex is-align-items-center">
+        {selectedGood ? (
+          <>
+            {`${selectedGood} is selected`}
 
-          <button
-            data-cy="ClearButton"
-            type="button"
-            className="delete ml-3"
-            onClick={() => useSelect('')}
-          />
-        </>
-      ) : (
-        'No goods selected'
-      )}
-    </h1>
+            <button
+              data-cy="ClearButton"
+              type="button"
+              className="delete ml-3"
+              onClick={() => setSelectedGood('')}
+            />
+          </>
+        ) : (
+          'No goods selected'
+        )}
+      </h1>
 
-    <table className="table">
-      <tbody>
-        {goods.map(good => (
-          <tr
-            key={good}
-            className={
-              select === good ? 'has-background-success-light' : ''
-            }
-          >
-            <td>
-              {select === good ? <button>-</button> : <button>+</button>}
-            </td>
-            <td>{good}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </main>;
+      <table className="table">
+        <tbody>
+          {goods.map(good => (
+            <tr
+              key={good}
+              data-cy="Good"
+              className={
+                selectedGood === good ? 'has-background-success-light' : ''
+              }
+            >
+              <td>
+                {selectedGood === good ? (
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    className="is-info"
+                    onClick={() => setSelectedGood('')}
+                  >
+                    -
+                  </button>
+                ) : (
+                  <button
+                    data-cy="AddButton"
+                    type="button"
+                    onClick={() => setSelectedGood(good)}
+                  >
+                    +
+                  </button>
+                )}
+              </td>
+
+              <td data-cy="GoodTitle">{good}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </main>
+  );
 };
